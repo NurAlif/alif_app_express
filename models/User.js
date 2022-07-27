@@ -1,13 +1,9 @@
-// import sequelize 
 import { Sequelize } from "sequelize";
-// import connection 
 import db from "../config/database.js";
 import bcrypt from 'bcrypt'
 
-// init DataTypes
 const { DataTypes } = Sequelize;
 
-// Define schema
 const User = db.define('user', {
   user_id: {
     type: DataTypes.INTEGER,

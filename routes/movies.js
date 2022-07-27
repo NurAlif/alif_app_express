@@ -9,13 +9,13 @@
  *       properties:
  *         user_id:
  *           type: integer
- *           description: The auto-generated id of the user.
+ *           description: The auto-generated id of the favorite movie.
  *         title:
  *           type: string
- *           description: user name
+ *           description: Movie title
  *       example:
- *          name: Andy
- *          password: Andy
+ *          user_id: 2
+ *          title: battleship
  *     moviesResponse:
  *       type: object
  *       properties:
@@ -42,7 +42,7 @@
  *   @swagger
  *   tags:
  *   name: Movies
- *   description: Required Movies Endpoint
+ *   description: Movies Endpoint
 */
 
 /**
@@ -69,7 +69,7 @@
  *             schema:
  *               $ref: '#/components/schemas/moviesResponse'
  *       "404":
- *         description: User not found.
+ *         description: Movie not found.
  * /movies/favorite:
  *   get:
  *     summary: Return all poster url of that user’s favorite movies
@@ -101,6 +101,8 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/moviesResponse'
+ *       "404":
+ *         description: Movie not found.
 */
 
 import express from "express";
@@ -110,9 +112,8 @@ import { readPosterUrl, readAllFavorite, insertFavorite } from "../controllers/m
 
 const movies = express.Router();
  
-movies.get('/:title', authenticateToken, readPosterUrl);
 movies.get('/favorite', authenticateToken, readAllFavorite);
+movies.get('/:title', authenticateToken, readPosterUrl);
 movies.post('/favorite', authenticateToken, insertFavorite);
  
-// export router
 export default movies;

@@ -12,10 +12,7 @@ export const authenticateToken = function (req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
   
-    if (token == null) return res.sendStatus(401)
-    
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log(decoded);
+    if (token == null) return res.sendStatus(403)
 
     try{
     const decode = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -23,6 +20,7 @@ export const authenticateToken = function (req, res, next) {
       req.user = decode
       next()
     }catch (e) {
-        return res.status(403).send('unauthorized');
+      console.log(error);
+      res.status(500);
     }
   }

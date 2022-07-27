@@ -1,44 +1,43 @@
-// Import model Product
 import User from "../models/User.js";
 import { generateAccessToken } from "../config/auth.js";
 
-// Get semua product
 export const getUsers = async (req, res) => {
     try {
-        const product = await User.findAll();
-        res.send(product);
+        const user = await User.findAll();
+        res.send(user);
     } catch (err) {
         console.log(err);
+        res.sendStatus(500);
     }
 }
 
-// Get product berdasarkan id
 export const getUserById = async (req, res) => {
     try {
-        const product = await User.findAll({
+        const user = await User.findOne({
             where: {
                 user_id: req.params.id
             }
         });
-        res.send(product[0]);
+        res.send(user);
     } catch (err) {
         console.log(err);
+        res.sendStatus(500);
     }
 }
 
-// Create product baru
 export const createUser = async (req, res) => {
     try {
-        await User.create(req.body);
-        res.json({
-            "message": "Product Created"
+        const user = await User.create(req.body);
+        res.status(201).json({
+            "message": "User Created",
+            "token": generateAccessToken(user.user_id)
         });
     } catch (err) {
         console.log(err);
+        res.sendStatus(500);
     }
 }
 
-// Update product berdasarkan id
 export const updateUser = async (req, res) => {
     try {
         await User.update(req.body, {
@@ -46,15 +45,15 @@ export const updateUser = async (req, res) => {
                 user_id: req.params.id
             }
         });
-        res.json({
-            "message": "Product Updated"
+        res.status(201).json({
+            "message": "User Updated"
         });
     } catch (err) {
         console.log(err);
+        res.sendStatus(500);
     }
 }
 
-// Delete product berdasarkan id
 export const deleteUser = async (req, res) => {
     try {
         await User.destroy({
@@ -63,35 +62,16 @@ export const deleteUser = async (req, res) => {
             }
         });
         res.json({
-            "message": "Product Deleted"
+            "message": "User Deleted"
         });
     } catch (err) {
         console.log(err);
-    }
-}
-
-
-
-export const logout = async (req, res) => {
-    try {
-        await User.destroy({
-            where: {
-                user_id: req.params.id
-            }
-        });
-        res.json({
-            "message": "Product Deleted"
-        });
-    } catch (err) {
-        console.log(err);
+        res.sendStatus(500);
     }
 }
 
 export const login = async (req, res) => {
     try {
-        const token = generateAccessToken(req.body.user_id);
-        res.json(token);
-
         var user = await User.findOne({
             where: {
                 user_id: req.body.user_id // user email
@@ -99,9 +79,7 @@ export const login = async (req, res) => {
         });
 
         if (!user) {
-            res.json({
-                "message": "User not found"
-            });
+            res.status(404).send({error: "User not found!"});
         } else {
             if (!user.password ||
                 !await user.validPassword(req.body.password,
@@ -112,12 +90,13 @@ export const login = async (req, res) => {
             } else {
                 res.json({
                     "message": "Authentication success",
-                    "token": generateAccessToken({ username: req.body.user_id })
+                    "token": generateAccessToken(req.body.user_id)
                 });
             }
         }
 
     } catch (err) {
-        res = err;
+        console.log(err);
+        res.sendStatus(500);
     }
 }

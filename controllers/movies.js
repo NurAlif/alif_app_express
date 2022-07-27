@@ -1,6 +1,4 @@
-import User from "../models/User.js";
 import FavoriteMovie from "../models/FavoriteMovie.js";
-import { generateAccessToken } from "../config/auth.js";
 
 import axios from "axios";
 import dotenv from 'dotenv';
@@ -16,10 +14,7 @@ const OMDBApi = axios.create({
 async function getPoster(title) {
     try {
         const res = await OMDBApi.get('/',{params:{apikey:OMDBApiKey, t:title}});
-        if(!res.data){
-            throw new Error('no response')
-        }
-        if(res.data.Response === 'False'){
+        if(!res.data || res.data.Response === 'False'){
             return false;
         }
         return res.data.Poster;
@@ -32,41 +27,55 @@ export const readPosterUrl = async (req, res) => {
     try {
         const poster = await getPoster(req.params.title);
         if(!poster)
-            res.send({error: "poster not found"});
+            res.status(404).send({error: "Movie not found!"});
         else
             res.send({posterUrl: poster});
     } catch (err) {
         console.log(err);
+        res.sendStatus(500);
     }
 }
 
 export const readAllFavorite = async (req, res) => {
     try {
-        const product = await FavoriteMovie.findAll({
+        const movies = await FavoriteMovie.findAll({
             where: {
-                user_id: req.params.id
+                user_id: req.user.user_id
             }
         });
-        res.send(product[0]);
+        var posters = new Array();
+        for(const movie of movies) {
+            const poster = await getPoster(movie.title);
+            posters.push({
+                title:movie.title, 
+                posterUrl: poster
+            })
+        }
+        console.log(posters);
+        res.send(posters);
     } catch (err) {
         console.log(err);
+        res.sendStatus(500);
     }
 }
 
 export const insertFavorite = async (req, res) => {
     try {
-        const poster = await getPoster(req.params.title);
+        const poster = await getPoster(req.body.title);
         if(!poster){
-            res.send({error: "poster not found"});
+            res.status(404).send({error: "Movie not found!"});
         }else{
-            await FavoriteMovie.create(req.user.user_id);
+            await FavoriteMovie.create({
+                user_id: req.user.user_id, 
+                title: req.body.title
+            });
             res.json({
                 "message": "Favorite Movie Aded"
             });
-            res.send(product[0]);
         }
     } catch (err) {
         console.log(err);
+        res.sendStatus(500);
     }
 }
 

@@ -18,13 +18,10 @@
  *           type: string
  *           description: password
  *       example:
- *          name: Andy
- *          password: Andy
+ *          name: Alif
+ *          password: alif1234
  *     loginResponse:
  *       type: object
- *       required:
- *         - name
- *         - password
  *       properties:
  *         user_id:
  *           type: integer
@@ -36,9 +33,9 @@
  *           type: string
  *           description: token
  *       example:
- *          user_id: 1
- *          name: Andy
- *          token: token
+ *          user_id: 2
+ *          name: alif1234
+ *          token: jwt_token
  *     loginRequest:
  *       type: object
  *       required:
@@ -53,14 +50,14 @@
  *           description: password
  *       example:
  *          user_id: 2
- *          password: Andy
+ *          password: Andysecret123
  */
 
 /**
  *   @swagger
  *   tags:
  *   name: Users
- *   description: Users CRUD with login & logout
+ *   description: Users CRUD + login
 */
 
 /**
@@ -89,7 +86,7 @@
  *           schema:
  *             $ref: '#/components/schemas/User'
  *     responses:
- *       "200":
+ *       "201":
  *         description: The created user.
  *         content:
  *           application/json:
@@ -98,6 +95,8 @@
  * /users/{id}:
  *   get:
  *     summary: Gets a user by id
+ *     security:        
+ *      - bearerAuth: []
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -117,6 +116,8 @@
  *         description: User not found.
  *   put:
  *     summary: Updates a user
+ *     security:        
+ *      - bearerAuth: []
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -132,12 +133,14 @@
  *           schema:
  *             $ref: '#/components/schemas/User'
  *     responses:
- *       "204":
+ *       "201":
  *         description: Update was successful.
  *       "404":
  *         description: User not found.
  *   delete:
  *     summary: Deletes a user by id
+ *     security:        
+ *      - bearerAuth: []
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -179,20 +182,17 @@ import {
     createUser,
     updateUser,
     deleteUser,
-    login,
-    logout
+    login
 } from "../controllers/user.js";
 
 const users = express.Router();
 
 users.get('', authenticateToken, getUsers);
 users.get('/:id', authenticateToken, getUserById);
-users.post('', authenticateToken, createUser);
+users.post('', createUser);
 users.put('/:id', authenticateToken, updateUser);
 users.delete('/:id', authenticateToken, deleteUser);
 
 users.post('/login', login);
-users.post('/logout', logout);
 
-// export router
 export default users;
