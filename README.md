@@ -13,10 +13,12 @@ npm start
 
 ```
 Now, you can go to http://localhost:3000/api-docs to test the API.
-you can also use Postman instead of swagger. The API run on http://localhost:3000
+You can use Postman instead of Swagger. The API run on http://localhost:3000
 
-You don't have to setup a database. The database is stored in [database.sqlite](database.sqlite) 
 
+Note: You don't have to setup a database. The database is stored in [database.sqlite](database.sqlite) 
+
+OpenAPI Doc: [apidoc.json](config/api-doc.json)
 
 
 # Testing with swagger
@@ -82,7 +84,9 @@ You don't have to setup a database. The database is stored in [database.sqlite](
 
 # Contact
 If you run into a problem feel free to contact me
+
 nuralif.2020@student.uny.ac.id
+
 https://wa.me/qr/5NGTX5JDQNFKF1
 
 
