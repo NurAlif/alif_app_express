@@ -34,7 +34,7 @@ OpenAPI Doc: [apidoc.json](config/api-doc.json)
 2. Go to http://localhost:3000/api-docs
 
    ![pretty demo](docs/2.png)
-3. You need a user you can either create or login with registered user. If you want to create a new user click Create User. 
+3. You need a user. You can either create a new one or login with registered user. If you want to create a new user select Create user endpoint. 
    
    ![pretty demo](docs/3.png)
    
@@ -54,7 +54,7 @@ OpenAPI Doc: [apidoc.json](config/api-doc.json)
 5. Press execute to send a GET request. Then, the response will appear:
    
    ![pretty demo](docs/6.png)
-   The response of create user endpoint is a token. Copy the token, and paste it in Authorize. This will make every endpoint that needs bearer token will be filled with this token. Otherwise the server will return code 403
+   The response of create user endpoint is a token. Copy the token, and paste it in Authorize. This will make every endpoint that needs bearer token will be filled with this token. Otherwise the server will return code 403.
    
    ![pretty demo](docs/7.png)
    
@@ -62,7 +62,7 @@ OpenAPI Doc: [apidoc.json](config/api-doc.json)
    
    ![pretty demo](docs/9.png)
    
-   If you want to log out, you can press log out in Authorize modal.
+   If you want to log out, you can press log out inside Authorize modal.
    Without a bearer token, the response would look like this:
    
    ![pretty demo](docs/14.png)
