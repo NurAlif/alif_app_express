@@ -110,7 +110,7 @@
                     }
                 },
                 "example": {
-                    "user_id": 2,
+                    "user_id": 1,
                     "name": "alif1234",
                     "token": "jwt_token"
                 }
@@ -132,8 +132,8 @@
                     }
                 },
                 "example": {
-                    "user_id": 2,
-                    "password": "Andysecret123"
+                    "user_id": 1,
+                    "password": "alif1234"
                 }
             }
         }
