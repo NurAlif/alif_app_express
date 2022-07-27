@@ -3,7 +3,7 @@
 
 # How to run
 
-To run my app, simply copy and paste these commands:
+To run my app, simply copy and paste these commands in your terminal:
 ```
 git clone https://github.com/NurAlif/alif_app_express.git
 cd alif_app_express
