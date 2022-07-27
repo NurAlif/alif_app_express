@@ -1,0 +1,451 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Alif's Backend App API Documentation",
+        "version": "0.1.0",
+        "description": "If You run into any problem feel free to contact me:",
+        "contact": {
+            "name": "Alif",
+            "email": "nuralif.2020@student.uny.ac.id",
+            "phone": "+6281217304001"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "FavoriteMovie": {
+                "type": "object",
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "description": "The auto-generated id of the favorite movie."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Movie title"
+                    }
+                },
+                "example": {
+                    "user_id": 2,
+                    "title": "battleship"
+                }
+            },
+            "moviesResponse": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Movie title"
+                    },
+                    "poster": {
+                        "type": "string",
+                        "description": "poster url"
+                    }
+                },
+                "example": {
+                    "title": "Interstellar",
+                    "poster": "https://www.image.jpg"
+                }
+            },
+            "moviesAddFavorite": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Movie title"
+                    }
+                },
+                "example": {
+                    "title": "Interstellar"
+                }
+            },
+            "User": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "password"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "description": "The auto-generated id of the user."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "user name"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "password"
+                    }
+                },
+                "example": {
+                    "name": "Alif",
+                    "password": "alif1234"
+                }
+            },
+            "loginResponse": {
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "description": "The auto-generated id of the user."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "user name"
+                    },
+                    "token": {
+                        "type": "string",
+                        "description": "token"
+                    }
+                },
+                "example": {
+                    "user_id": 2,
+                    "name": "alif1234",
+                    "token": "jwt_token"
+                }
+            },
+            "loginRequest": {
+                "type": "object",
+                "required": [
+                    "user_id",
+                    "password"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "description": "The auto-generated id of the user."
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "password"
+                    }
+                },
+                "example": {
+                    "user_id": 2,
+                    "password": "Andysecret123"
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/"
+        }
+    ],
+    "paths": {
+        "path": {},
+        "/movies/{title}": {
+            "get": {
+                "summary": "Return poster url of that movie",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Movies"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "title",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Movie Title"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "poster url",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/moviesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found."
+                    }
+                }
+            }
+        },
+        "/movies/favorite": {
+            "get": {
+                "summary": "Return all poster url of that user’s favorite movies",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Movies"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list of favorite movies.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/moviesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Insert into user’s favorite movies",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Movies"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/moviesAddFavorite"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "moviesAdded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/moviesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found."
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "get": {
+                "summary": "Lists all the users",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list of users.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Creates a new user",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The created user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "summary": "Gets a user by id",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true,
+                        "description": "The user id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list of users.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Updates a user",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true,
+                        "description": "The user id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Update was successful."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes a user by id",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true,
+                        "description": "The user id"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Delete was successful."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "summary": "Creates a new user",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/loginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The created user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/loginResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Movies",
+            "description": "Movies Endpoint"
+        },
+        {
+            "name": "Users",
+            "description": "Users CRUD + login"
+        }
+    ]
+}

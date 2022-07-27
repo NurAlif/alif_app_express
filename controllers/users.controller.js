@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/User.model.js";
 import { generateAccessToken } from "../config/auth.js";
 
 export const getUsers = async (req, res) => {

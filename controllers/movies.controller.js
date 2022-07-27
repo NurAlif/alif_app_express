@@ -1,4 +1,4 @@
-import FavoriteMovie from "../models/FavoriteMovie.js";
+import FavoriteMovie from "../models/Movie.model.js";
 
 import axios from "axios";
 import dotenv from 'dotenv';

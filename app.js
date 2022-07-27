@@ -3,15 +3,14 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 
-import usersRouter from './routes/users.js';
-import favoriteMoviesRouter from './routes/movies.js'
+import usersRouter from './routes/users.route.js';
+import favoriteMoviesRouter from './routes/movies.route.js'
 
 import { fileURLToPath } from 'url';
 
-import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import swaggerDoc from "./config/api-doc.json" assert {type: "json"};
 
-import { swg_options } from './config/swagger.js';
 import ExpressPinoLogger from 'express-pino-logger';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,17 +28,15 @@ app.use((req, res, next) => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const specs = swaggerJsdoc(swg_options);
 app.use(
   "/api-docs",
   swaggerUi.serve,
-  swaggerUi.setup(specs)
+  swaggerUi.setup(swaggerDoc)
 );
 
 var pino = ExpressPinoLogger({
