@@ -1,5 +1,6 @@
 // Import model Product
 import User from "../models/User.js";
+import { generateAccessToken } from "../config/auth.js";
 
 // Get semua product
 export const getUsers = async (req, res) => {
@@ -88,6 +89,9 @@ export const logout = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
+        const token = generateAccessToken(req.body.user_id);
+        res.json(token);
+
         var user = await User.findOne({
             where: {
                 user_id: req.body.user_id // user email
@@ -107,7 +111,8 @@ export const login = async (req, res) => {
                 });
             } else {
                 res.json({
-                    "message": "Authentication success"
+                    "message": "Authentication success",
+                    "token": generateAccessToken({ username: req.body.user_id })
                 });
             }
         }

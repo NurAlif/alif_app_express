@@ -32,12 +32,13 @@
  *         name:
  *           type: string
  *           description: user name
- *         password:
+ *         token:
  *           type: string
- *           description: password
+ *           description: token
  *       example:
+ *          user_id: 1
  *          name: Andy
- *          password: Andy
+ *          token: token
  *     loginRequest:
  *       type: object
  *       required:
@@ -68,6 +69,8 @@
  * /users/:
  *   get:
  *     summary: Lists all the users
+ *     security:        
+ *      - bearerAuth: []
  *     tags: [Users]
  *     responses:
  *       "200":
@@ -164,10 +167,11 @@
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/loginResponse'
 */
 
 import express from "express";
+import { authenticateToken } from "../config/auth.js";
 
 import {
     getUsers,
@@ -181,11 +185,11 @@ import {
 
 const users = express.Router();
 
-users.get('', getUsers);
-users.get('/:id', getUserById);
-users.post('', createUser);
-users.put('/:id', updateUser);
-users.delete('/:id', deleteUser);
+users.get('', authenticateToken, getUsers);
+users.get('/:id', authenticateToken, getUserById);
+users.post('', authenticateToken, createUser);
+users.put('/:id', authenticateToken, updateUser);
+users.delete('/:id', authenticateToken, deleteUser);
 
 users.post('/login', login);
 users.post('/logout', logout);

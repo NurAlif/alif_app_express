@@ -6,6 +6,7 @@ import logger from 'morgan';
 import cors from "cors";
 
 import usersRouter from './routes/users.js';
+import favoriteMoviesRouter from './routes/movies.js'
 
 import { fileURLToPath } from 'url';
 
@@ -44,13 +45,22 @@ const options = {
         email: "nuralif.2020@student.uny.ac.id",
       },
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        }
+      }
+    },
     servers: [
       {
         url: "http://localhost:3000/",
       },
     ],
   },
-  apis: ["./routes/users.js"],
+  apis: ["./routes/users.js", "./routes/movies.js"],
 };
 
 const specs = swaggerJsdoc(options);
@@ -61,6 +71,7 @@ app.use(
 );
 
 app.use('/users', usersRouter);
+app.use('/movies', favoriteMoviesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
