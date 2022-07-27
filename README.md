@@ -5,7 +5,7 @@ Dear Bukit Vista Recruiting Team.
 To fulfill the online test, I gladly present my backend app. This app meet every requirement that is defined in [the task](https://www.dropbox.com/scl/fi/niffy8w0hz38lrcwkqh2v/Programmer-test---Node-JS-back-end---%5BNur-Alif-Ilyasa%5D.paper?dl=0&rlkey=aouus9c899uelehl25i03r6cl).
 
 
-Thank you for giving me a chance to apply for this position. I will bewaiting for the result and next process of the application. 
+Thank you for giving me a chance to apply for this position. I will be waiting for the result and next process of the application. 
 
 # How to run
 
