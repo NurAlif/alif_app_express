@@ -409,7 +409,7 @@
         },
         "/users/login": {
             "post": {
-                "summary": "Creates a new user",
+                "summary": "Login with a registered user",
                 "tags": [
                     "Users"
                 ],
