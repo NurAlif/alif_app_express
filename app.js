@@ -10,7 +10,6 @@ import { fileURLToPath } from 'url';
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDoc from "./config/api-doc.json" assert {type: "json"};
-
 import ExpressPinoLogger from 'express-pino-logger';
 
 const __filename = fileURLToPath(import.meta.url);

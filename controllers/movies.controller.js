@@ -79,3 +79,37 @@ export const insertFavorite = async (req, res) => {
     }
 }
 
+export const updateFavorite = async (req, res) => {
+    try {
+        await FavoriteMovie.update(req.body, {
+            where: {
+                user_id: req.user.user_id, 
+                title: req.params.title
+            }
+        });
+        res.status(201).json({
+            "message": "Favorite Movie Updated"
+        });
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+}
+
+export const deleteFavorite = async (req, res) => {
+    try {
+        await FavoriteMovie.destroy({
+            where: {
+                user_id: req.user.user_id, 
+                title: req.params.title
+            }
+        });
+        res.json({
+            "message": "Favorite Movie Deleted"
+        });
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+}
+

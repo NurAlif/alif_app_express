@@ -68,6 +68,35 @@
                     "title": "Interstellar"
                 }
             },
+            "moviesUpdateFavorite": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "New Movie title"
+                    },
+                    "posterUrl": {
+                        "type": "string",
+                        "description": "New URL"
+                    }
+                },
+                "example": {
+                    "title": "New Title",
+                    "posterUrl": "New poster url"
+                }
+            },
+            "moviesRemoveFavorite": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Movie title"
+                    }
+                },
+                "example": {
+                    "title": "worm"
+                }
+            },
             "User": {
                 "type": "object",
                 "required": [
@@ -180,6 +209,82 @@
                     },
                     "404": {
                         "description": "Movie not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "update poster url and movie name of that movie",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Movies"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "title",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Movie Title"
+                    }
+                ],"requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/moviesUpdateFavorite"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "moviesUpdated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/moviesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes a Favorite Movie by title",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Movies"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "title",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Movie Title"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Delete was successful."
+                    },
+                    "404": {
+                        "description": "Favorite Movie not found."
                     }
                 }
             }

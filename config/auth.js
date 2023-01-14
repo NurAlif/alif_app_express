@@ -16,11 +16,10 @@ export const authenticateToken = function (req, res, next) {
 
     try{
     const decode = jwt.verify(token, process.env.TOKEN_SECRET);
-      console.log(decode)
       req.user = decode
       next()
     }catch (e) {
-      console.log(error);
+      console.log(e);
       res.status(500);
     }
   }
