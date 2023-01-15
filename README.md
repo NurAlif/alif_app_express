@@ -1,6 +1,7 @@
 # Programmer test - Node JS back end - [Nur Alif Ilyasa]
 
-
+Pattern yang digunakan: Middleware.
+Karena aplikasi express adalah susunan fungsi middleware.
 
 # How to run
 
